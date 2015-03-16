@@ -20,7 +20,7 @@ var app = http.createServer(function (request, response) {
 
 var io = require('socket.io')(app);
 
-app.listen(8000);
+app.listen(8080);
 
 // Listen for incoming connections from clients
 io.on('connection', function (socket) {
