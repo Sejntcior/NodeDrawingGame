@@ -7,13 +7,52 @@ jQuery(function(){
 	}
 
 	// The URL of your web server (the port is set in app.js)
-	//var url = 'http://localhost:3000';
+	var port = window.location.port;
     var url = window.location.hostname;
+    if(port)
+        url += ":" + port;
 
 	var doc = jQuery(document),
 		canvas = jQuery('#paper'),
 		ctx = canvas[0].getContext('2d'),
-		instructions = jQuery('#instructions');
+		instructions = jQuery('#instructions'),
+        colorpicker = jQuery('#colorpicker');
+
+    function colorAppend(color) {
+        colorpicker.append('<div class="color" style="background-color: #' + color + ';" data-color="' + color + '"></div>');
+    }
+
+    colorAppend("FFFFFF");
+    colorAppend("000000");
+    colorAppend("FF0000");
+    colorAppend("FF00D0");
+    colorAppend("AA00FF");
+    colorAppend("1500FF");
+    colorAppend("0099FF");
+    colorAppend("00EEFF");
+    colorAppend("00FFA2");
+    colorAppend("00FF08");
+    colorAppend("D9FF00");
+    colorAppend("FFAE00");
+
+
+    var r = Math.floor(Math.random() * 255) + 70;
+    var g = Math.floor(Math.random() * 255) + 70;
+    var b = Math.floor(Math.random() * 255) + 70;
+    var color = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+    jQuery(".color").click(function() {
+        var $this = jQuery(this);
+        var c = $this.data('color');
+
+        var bigint = parseInt(c, 16);
+        var r = (bigint >> 16) & 255;
+        var g = (bigint >> 8) & 255;
+        var b = bigint & 255;
+
+        color = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+    });
 
     // Force canvas to dynamically change its size to the same width/height
     // as the browser window.
@@ -27,12 +66,6 @@ jQuery(function(){
 
 	// Generate an unique ID
 	var id = Math.round(jQuery.now()*Math.random());
-
-    //Generate a random color
-    var r = Math.floor(Math.random() * 255) + 70;
-    var g = Math.floor(Math.random() * 255) + 70;
-    var b = Math.floor(Math.random() * 255) + 70;
-    var color = 'rgb(' + r + ',' + g + ',' + b + ')';
 
 	// A flag for drawing activity
 	var drawing = false;
