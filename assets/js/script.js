@@ -16,7 +16,8 @@ jQuery(function(){
 		canvas = jQuery('#paper'),
 		ctx = canvas[0].getContext('2d'),
 		instructions = jQuery('#instructions'),
-        colorpicker = jQuery('#colorpicker');
+        colorpicker = jQuery('#colorpicker'),
+        lWidth = jQuery('#currentwidth');
 
     function colorAppend(color) {
         colorpicker.append('<div class="color" style="background-color: #' + color + ';" data-color="' + color + '"></div>');
@@ -40,6 +41,7 @@ jQuery(function(){
     var g = Math.floor(Math.random() * 255) + 70;
     var b = Math.floor(Math.random() * 255) + 70;
     var color = 'rgb(' + r + ',' + g + ',' + b + ')';
+    var lineWidth = 10;
 
     jQuery(".color").click(function() {
         var $this = jQuery(this);
@@ -52,6 +54,23 @@ jQuery(function(){
 
         color = 'rgb(' + r + ',' + g + ',' + b + ')';
 
+    });
+
+    jQuery(".width-plus").click(function() {
+        lineWidth += 10;
+        if(lineWidth >= 100)
+            lineWidth = 100;
+
+        lWidth.text(lineWidth);
+    });
+
+    jQuery(".width-minus").click(function() {
+        lineWidth -= 10;
+
+        if(lineWidth <= 10)
+            lineWidth = 10;
+
+        lWidth.text(lineWidth);
     });
 
     // Force canvas to dynamically change its size to the same width/height
@@ -93,7 +112,7 @@ jQuery(function(){
 			
 			// Draw a line on the canvas. clients[data.id] holds
 			// the previous position of this user's mouse pointer
-
+            ctx.lineWidth = data.lineWidth;
             ctx.strokeStyle = data.color;
 			drawLine(clients[data.id].x, clients[data.id].y, data.x, data.y);
 		}
@@ -169,6 +188,7 @@ jQuery(function(){
 				'y': e.pageY,
 				'drawing': drawing,
                 'color': color,
+                'lineWidth': lineWidth,
 				'id': id
 			});
 			lastEmit = jQuery.now();
@@ -179,6 +199,7 @@ jQuery(function(){
 		
 		if(drawing){
 
+            ctx.lineWidth = lineWidth;
             ctx.strokeStyle = color;
 			drawLine(prev.x, prev.y, e.pageX, e.pageY);
 

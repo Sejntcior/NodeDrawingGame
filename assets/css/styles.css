@@ -63,8 +63,8 @@ hgroup{
 colorpicker {
     position: fixed;
     background-color: rgba(255, 255, 255, 0.7);
-    width: 45px;
-    height: 70px;
+    width: 50px;
+    height: 90px;
     top: 50%;
     left: 0;
     margin: -80px 0 0 0;
@@ -77,6 +77,10 @@ colorpicker .color {
     display: inline-block;
     width: 15px;
     height: 15px;
+}
+
+colorpicker .line {
+    display: inline-block;
 }
 
 h1{
